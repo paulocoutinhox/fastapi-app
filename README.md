@@ -14,3 +14,9 @@ A FastAPI complete application with nice features and tests.
 - Rate limiter support.
 - Docker support (single and compose).
 - Ready for production.
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2024, Paulo Coutinho
