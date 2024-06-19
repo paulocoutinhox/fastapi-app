@@ -1,0 +1,17 @@
+# app
+pygemstones>=0.0.13
+black>=22.0.0
+pydantic
+fastapi
+uvicorn
+requests
+sqlalchemy
+mysql-connector-python
+throttled
+apscheduler
+
+# test
+pytest
+pytest-asyncio
+pytest-mock
+httpx

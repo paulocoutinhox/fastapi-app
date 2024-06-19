@@ -1,0 +1,24 @@
+services:
+  app-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://user:password@host:3306/database
+    volumes:
+      - .:/app
+
+  mysql:
+    image: mysql:8.4.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./mysql-data:/var/lib/mysql
