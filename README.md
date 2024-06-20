@@ -9,6 +9,7 @@ A FastAPI complete application with nice features and tests.
 - Senior organization support.
 - Database support.
 - Scheduler jobs support.
+- Test and mock support.
 - Service layer support.
 - Pydantic support.
 - Rate limiter support.
