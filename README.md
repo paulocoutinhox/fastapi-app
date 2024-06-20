@@ -9,12 +9,26 @@ A FastAPI complete application with nice features and tests.
 - Senior organization support.
 - Database support.
 - Scheduler jobs support.
-- Test and mock support.
+- Test, mock and code coverage support.
 - Service layer support.
 - Pydantic support.
 - Rate limiter support.
 - Docker support (single and compose).
 - Ready for production.
+
+## Test
+
+To run tests execute:
+
+```
+python3 -m pytest
+```
+
+To run tests execute with code coverage:
+
+```
+python3 -m pytest --cov=. --maxfail=1 tests/
+```
 
 ## License
 

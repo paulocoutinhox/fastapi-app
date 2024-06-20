@@ -47,3 +47,4 @@ poetry.lock
 # app
 *.db
 mysql-data
+.coverage
