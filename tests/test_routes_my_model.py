@@ -22,7 +22,7 @@ def test_my_model_random(client: TestClient):
     assert response.status_code == 200
 
     # get random
-    response = client.post("/api/my-model/random")
+    response = client.get("/api/my-model/random")
     assert response.status_code == 200
     data = response.json()
     assert "model" in data
@@ -52,7 +52,7 @@ def test_my_model_create_fail_find_by_id(client: TestClient):
 
 def test_my_model_random_not_found(client: TestClient):
     with patch("services.my_model.get_random_row", return_value=None):
-        response = client.post("/api/my-model/random")
+        response = client.get("/api/my-model/random")
         assert response.status_code == 200
         data = response.json()
         assert data == {"message": "not-found"}

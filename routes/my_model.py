@@ -25,7 +25,7 @@ async def my_model_create(request: MyModelRequest, db: Session = Depends(get_db)
     return response
 
 
-@router.post("/api/my-model/random")
+@router.get("/api/my-model/random")
 async def my_model_random(db: Session = Depends(get_db)):
     obj = service_my_model.get_random_row(db)
 
