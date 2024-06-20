@@ -10,9 +10,9 @@ from sqlalchemy.orm import sessionmaker
 # app
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from helpers import router
 from helpers.db import get_db
 from models.my_model import Base
-from routes.my_model import setup
 
 # database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
@@ -23,7 +23,7 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 
 
 # fixtures
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def db():
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
@@ -37,6 +37,7 @@ def db():
 @pytest.fixture
 def app(db) -> FastAPI:
     app = FastAPI()
+    router.setup(app)
 
     # replace database session
     def override_get_db():
@@ -46,7 +47,6 @@ def app(db) -> FastAPI:
             db.close()
 
     app.dependency_overrides[get_db] = override_get_db
-    setup(app)
     return app
 
 
