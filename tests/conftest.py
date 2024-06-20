@@ -12,7 +12,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from helpers.db import get_db
 from models.my_model import Base
-from routes.my_model import setup
+from helpers import log, rate_limiter
+from helpers.scheduler import setup as scheduler_setup
+from helpers import router
 
 # database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
@@ -37,6 +39,7 @@ def db():
 @pytest.fixture
 def app(db) -> FastAPI:
     app = FastAPI()
+    router.setup(app)
 
     # replace database session
     def override_get_db():
@@ -46,7 +49,6 @@ def app(db) -> FastAPI:
             db.close()
 
     app.dependency_overrides[get_db] = override_get_db
-    setup(app)
     return app
 
 

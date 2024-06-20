@@ -11,6 +11,8 @@ help:
 	@echo "- setup"
 	@echo ""
 	@echo "- start"
+	@echo "- test"
+	@echo "- test-cov"
 	@echo ""
 	@echo "- docker-build"
 	@echo "- docker-start"
@@ -27,6 +29,12 @@ setup:
 
 start:
 	uvicorn main:app --host 0.0.0.0 --port 8000  --log-level debug --reload
+
+test:
+	python3 -m pytest
+
+test-cov:
+	python3 -m pytest --cov=. --maxfail=1 tests/
 
 docker-build:
 	docker compose build
