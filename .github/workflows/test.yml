@@ -39,4 +39,15 @@ jobs:
         run: python3 -m pip install -r requirements.txt
 
       - name: Test
-        run: python3 -m pytest
+        run: |
+          python3 -m pytest --cov=. --cov-report=html tests
+          python3 -m coverage xml
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unittests
+          verbose: true
+          fail_ci_if_error: true

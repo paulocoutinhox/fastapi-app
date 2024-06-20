@@ -48,3 +48,4 @@ poetry.lock
 *.db
 mysql-data
 .coverage
+coverage.xml
