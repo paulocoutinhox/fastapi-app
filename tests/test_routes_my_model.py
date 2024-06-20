@@ -48,3 +48,11 @@ def test_my_model_create_fail_find_by_id(client: TestClient):
         response = client.post("/api/my-model/create", json=request.model_dump())
         assert response.status_code == 404
         assert response.json() == {"detail": "MyModel not found after creation"}
+
+
+def test_my_model_random_not_found(client: TestClient):
+    with patch("services.my_model.get_random_row", return_value=None):
+        response = client.post("/api/my-model/random")
+        assert response.status_code == 200
+        data = response.json()
+        assert data == {"message": "not-found"}
