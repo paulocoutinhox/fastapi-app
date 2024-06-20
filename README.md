@@ -18,7 +18,7 @@ A FastAPI complete application with nice features and tests.
 - Docker support (single and compose).
 - Ready for production.
 
-## Test
+## Tests
 
 To run tests execute:
 
