@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+from sqlalchemy.orm import Session
 
 from helpers.scheduler import scheduler
 from jobs import my_model
@@ -16,7 +17,7 @@ def run_around_tests():
     scheduler.remove_all_jobs()
 
 
-def test_job_create_my_model_list(db):
+def test_job_create_my_model_list(db: Session):
     # patch db session to use the test database session
     with patch("helpers.db.SessionLocal", return_value=db):
         # execute job
