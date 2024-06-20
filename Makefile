@@ -14,11 +14,14 @@ help:
 	@echo "- test"
 	@echo "- test-cov"
 	@echo ""
-	@echo "- docker-build"
-	@echo "- docker-start"
-	@echo "- docker-stop"
-	@echo "- docker-restart"
-	@echo "- docker-logs"
+	@echo "- docker-single-build"
+	@echo "- docker-single-start"
+	@echo ""
+	@echo "- docker-compose-build"
+	@echo "- docker-compose-start"
+	@echo "- docker-compose-stop"
+	@echo "- docker-compose-restart"
+	@echo "- docker-compose-logs"
 	@echo ""
 
 format:
@@ -36,17 +39,23 @@ test:
 test-cov:
 	python3 -m pytest --cov=. --maxfail=1 tests/
 
-docker-build:
+docker-single-build:
+	docker build -f Dockerfile.web -t fastapi-app .
+
+docker-single-start:
+	docker run --rm -v ./:/app -p 8000:8000 fastapi-app
+
+docker-compose-build:
 	docker compose build
 
-docker-start:
+docker-compose-start:
 	docker compose up -d
 
-docker-stop:
+docker-compose-stop:
 	docker compose down -v
 
-docker-restart:
+docker-compose-restart:
 	docker compose restart
 
-docker-logs:
+docker-compose-logs:
 	docker compose logs

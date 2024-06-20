@@ -1,4 +1,7 @@
-FROM python:3.10
+FROM python:3.12
+
+# environment
+ENV DATABASE_URL "sqlite:///./app.db"
 
 # install dependencies
 RUN apt-get update \
