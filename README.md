@@ -1,10 +1,10 @@
 # Python FastAPI App
 
+A FastAPI complete application with nice features and tests.
+
 [![Test](https://github.com/paulocoutinhox/fastapi-app/actions/workflows/test.yml/badge.svg)](https://github.com/paulocoutinhox/fastapi-app/actions/workflows/test.yml)
 
 [![codecov](https://codecov.io/gh/paulocoutinhox/fastapi-app/graph/badge.svg?token=SFNWCA8JQ4)](https://codecov.io/gh/paulocoutinhox/fastapi-app)
-
-A FastAPI complete application with nice features and tests.
 
 ## What is included
 
