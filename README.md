@@ -30,6 +30,7 @@ APIs are essential for various types of applications, including:
 - Internet of Things (IoT) applications
 - Desktop applications that require online functionalities
 - JAMstack websites and applications
+- Low-Code and No-Code services like Bubble, FlutterFlow and others
 
 ## Start Locally
 
