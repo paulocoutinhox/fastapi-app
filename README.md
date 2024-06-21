@@ -19,6 +19,18 @@ A FastAPI complete application with nice features and tests.
 - Ready for production
 - Support for Python version from 3.8 to 3.12
 
+## Use Cases
+
+APIs are essential for various types of applications, including:
+
+- Mobile applications
+- Progressive Web Applications (PWA)
+- Single Page Applications (SPA)
+- Microservices
+- Internet of Things (IoT) applications
+- Desktop applications that require online functionalities
+- JAMstack websites and applications
+
 ## Start Locally
 
 To start locally execute:
