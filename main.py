@@ -10,12 +10,12 @@ log.setup()
 app = FastAPI()
 rate_limiter.setup(app)
 cors.setup(app)
-static.setup(app)
 
 # routes
 from helpers import router
 
 router.setup(app)
+static.setup(app)
 
 # scheduler
 scheduler_setup(app)
