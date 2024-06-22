@@ -14,7 +14,7 @@ jobstores = {
 scheduler = AsyncIOScheduler(
     executors=executors,
     jobstores=jobstores,
-    timezone="America/Sao_Paulo",
+    timezone="UTC",
 )
 
 
