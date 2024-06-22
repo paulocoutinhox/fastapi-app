@@ -124,6 +124,14 @@ or
 make test-cov
 ```
 
+## API Tester
+
+Once the API server is running, you can test your APIs by accessing the following URL:
+
+```
+http://localhost:8000/docs
+```
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
