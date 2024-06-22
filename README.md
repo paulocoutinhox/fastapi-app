@@ -16,6 +16,7 @@ A FastAPI complete application with nice features and tests.
 - Pydantic support
 - Rate limiter support
 - CORS support
+- Static files support
 - Docker support (single and compose)
 - Ready for production
 - Support for Python version from 3.8 to 3.12

@@ -13,7 +13,7 @@ def test_no_cors(app: FastAPI, client: TestClient):
     assert "access-control-allow-origin" not in response.headers
 
 
-def test_with_cors(app: FastAPI, client: TestClient):
+def test_with_cors(app: FastAPI):
     app = FastAPI()
     cors.setup(app)
     client = TestClient(app)
