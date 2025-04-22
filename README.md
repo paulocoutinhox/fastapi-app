@@ -19,7 +19,7 @@ A FastAPI complete application with nice features and tests.
 - Static files support
 - Docker support (single and compose)
 - Ready for production
-- Support for Python version from 3.8 to 3.12
+- Support for Python version from 3.8 to 3.13
 
 ## Use Cases
 
@@ -136,4 +136,4 @@ http://localhost:8000/docs
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2024, Paulo Coutinho
+Copyright (c) 2024-2025, Paulo Coutinho
