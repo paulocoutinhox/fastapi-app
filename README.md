@@ -132,6 +132,31 @@ Once the API server is running, you can test your APIs by accessing the followin
 http://localhost:8000/docs
 ```
 
+## Database
+
+The project includes a sample database model with the following structure:
+
+```sql
+CREATE TABLE `my_model` (
+    `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    `field1` VARCHAR(255) NULL,
+    `field2` BOOLEAN NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NULL,
+    UNIQUE (`id`)
+);
+```
+
+This model demonstrates:
+- Auto-incrementing primary key (`id`)
+- String field with maximum length of 255 characters (`field1`)
+- Boolean field (`field2`)
+- Automatic timestamp for record creation (`created_at`)
+- Optional timestamp for record updates (`updated_at`)
+- Unique constraint on the primary key
+
+The database is configured to use SQLite by default, but you can easily switch to other databases by modifying the `DATABASE_URL` environment variable.
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
