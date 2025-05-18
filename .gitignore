@@ -43,6 +43,7 @@ mysql-data
 *.egg-info
 .pytest_cache
 poetry.lock
+.venv
 
 # app
 *.db
