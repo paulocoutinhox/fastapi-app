@@ -9,4 +9,4 @@ def job_create_my_model_list():
     data = {"field1": "Test Job"}
     obj = MyModel(**data)
     id = service_my_model.create(obj, db.SessionLocal())
-    print(f"Job Executed: ${id}")
+    print(f"Job Executed: {id}")

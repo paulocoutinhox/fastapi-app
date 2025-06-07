@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 
 from helpers import cors, log, rate_limiter, static
-from helpers.scheduler import setup as scheduler_setup
+from helpers.lifespan import lifespan
 
 # log
 log.setup()
 
 # app
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 rate_limiter.setup(app)
 cors.setup(app)
 
@@ -16,9 +16,6 @@ from helpers import router
 
 router.setup(app)
 static.setup(app)
-
-# scheduler
-scheduler_setup(app)
 
 # scheduler jobs
 import jobs
