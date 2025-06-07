@@ -3,16 +3,16 @@ from unittest.mock import patch
 from helpers.scheduler import scheduler
 
 
-def test_scheduler_startup():
-    with patch.object(scheduler, "start", return_value=None) as mock_start:
-        scheduler.start()
-        mock_start.assert_called_once()
+@patch.object(scheduler, "start")
+def test_scheduler_startup(mock_start):
+    scheduler.start()
+    mock_start.assert_called_once()
 
 
-def test_scheduler_shutdown():
-    with patch.object(scheduler, "shutdown", return_value=None) as mock_shutdown:
-        scheduler.shutdown()
-        mock_shutdown.assert_called_once()
+@patch.object(scheduler, "shutdown")
+def test_scheduler_shutdown(mock_shutdown):
+    scheduler.shutdown()
+    mock_shutdown.assert_called_once()
 
 
 def test_scheduler_instance():
