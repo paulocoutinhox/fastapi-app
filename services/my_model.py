@@ -15,7 +15,7 @@ def create(obj: MyModel, db: Session):
         db.refresh(obj)
         return obj.id
     except Exception as e:
-        l.error(f"[my model : create] ${e}")
+        l.error(f"[my model : create] {e}")
         db.rollback()
         return None
 
@@ -25,7 +25,7 @@ def get_random_row(db: Session):
         random_row = db.query(MyModel).order_by(func.random()).first()
         return random_row
     except Exception as e:
-        l.error(f"[my model : get random row] ${e}")
+        l.error(f"[my model : get random row] {e}")
         return None
 
 
@@ -38,7 +38,7 @@ def update(id, obj: MyModel, db: Session):
         db.commit()
         return item
     except Exception as e:
-        l.error(f"[my model : update] ${e}")
+        l.error(f"[my model : update] {e}")
         db.rollback()
     return None
 
@@ -50,7 +50,7 @@ def delete(id, db: Session):
         db.commit()
         return True
     except Exception as e:
-        l.error(f"[my model : delete] ${e}")
+        l.error(f"[my model : delete] {e}")
         db.rollback()
         return False
 
@@ -60,5 +60,5 @@ def find_by_id(id, db: Session):
         item = db.query(MyModel).filter(MyModel.id == id).one()
         return item
     except Exception as e:
-        l.error(f"[my model : find by id] ${e}")
+        l.error(f"[my model : find by id] {e}")
         return None
