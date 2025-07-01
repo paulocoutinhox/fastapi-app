@@ -11,8 +11,7 @@ from sqlalchemy.orm import sessionmaker
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from helpers import router
-from helpers.db import get_db
-from models.my_model import Base
+from helpers.db import Base, get_db
 
 # database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
