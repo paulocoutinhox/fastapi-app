@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI
 from sqlalchemy.orm import Session
 
 from helpers.db import get_db
-from models.my_model import MyModel, MyModelRequest, MyModelResponse
+from models.my_model import MyModel, MyModelRequest
+from models.web_response import WebResponse
 from services import my_model as service_my_model
 
 router = APIRouter()
@@ -14,15 +15,13 @@ async def my_model_create(request: MyModelRequest, db: Session = Depends(get_db)
 
     id = service_my_model.create(obj, db)
     if id is None:
-        raise HTTPException(status_code=400, detail="Failed to create MyModel")
+        return WebResponse.e("create-failed").r400()
 
     obj = service_my_model.find_by_id(id, db)
     if obj is None:
-        raise HTTPException(status_code=404, detail="MyModel not found after creation")
+        return WebResponse.e("not-found").r404()
 
-    response = MyModelResponse(message="created", model=obj.to_dict())
-
-    return response
+    return WebResponse.s("created", obj).r201()
 
 
 @router.get("/api/my-model/random")
@@ -30,11 +29,9 @@ async def my_model_random(db: Session = Depends(get_db)):
     obj = service_my_model.get_random_row(db)
 
     if obj is None:
-        return {"message": "not-found"}
+        return WebResponse.e("not-found").r404()
 
-    response = MyModelResponse(message="random", model=obj.to_dict())
-
-    return response
+    return WebResponse.s("random", obj).r200()
 
 
 def setup(app: FastAPI):

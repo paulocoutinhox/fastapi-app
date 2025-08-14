@@ -20,6 +20,28 @@ A FastAPI complete application with nice features and tests.
 - Docker support (single and compose)
 - Ready for production
 - Support for Python version from 3.9 to 3.13
+- WebResponse: Standardized API response class with automatic data processing and status code chaining
+
+## WebResponse
+
+A standardized response class that simplifies API responses with automatic data processing and status code chaining:
+
+```python
+# Success response
+return WebResponse.s("user-created", {"model": user_model}).r201()
+
+# Error response
+return WebResponse.e("validation-failed", errors=errors).r422()
+
+# Custom status code
+return WebResponse.s("custom-status").r(202)
+```
+
+Features:
+- **Automatic data processing**: Handles Pydantic models, ORM objects, and dictionaries
+- **Status code chaining**: `.r200()`, `.r201()`, `.r404()`, etc.
+- **B2B message format**: Standardized lowercase messages with hyphens
+- **Flexible**: Supports any data type and custom status codes
 
 ## Use Cases
 

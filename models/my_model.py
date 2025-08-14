@@ -39,10 +39,3 @@ class MyModel(Base):
 class MyModelRequest(BaseModel):
     field1: str
     field2: bool
-
-
-class MyModelResponse(BaseModel):
-    message: Optional[str] = None
-    model: Optional[dict] = None
-
-    model_config = ConfigDict(from_attributes=True)
