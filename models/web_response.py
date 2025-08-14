@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional, Union
 
 from fastapi import Response, status
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, ValidationError
 
 
 class WebResponse(BaseModel):
@@ -54,9 +54,57 @@ class WebResponse(BaseModel):
         message: str = "error",
         data: Optional[Union[Dict[str, Any], Any]] = None,
         errors: Optional[Dict[str, List[str]]] = None,
+        verror: Optional[ValidationError] = None,
     ) -> "WebResponseBuilder":
-        """Create an error response"""
+        """
+        Create an error response
+
+        Args:
+            message: Error message
+            data: Additional data to include
+            errors: Manual validation errors dict
+            verror: Pydantic ValidationError to process automatically
+        """
+        # if validation_error is provided, process it automatically
+        if verror is not None:
+            processed_errors = cls._process_validation_error(verror)
+            # merge with manual errors if provided
+            if errors:
+                for field, field_errors in errors.items():
+                    if field not in processed_errors:
+                        processed_errors[field] = []
+                    processed_errors[field].extend(field_errors)
+            errors = processed_errors
+
         return cls.create(False, message, data, errors)
+
+    @classmethod
+    def _process_validation_error(
+        cls, validation_error: ValidationError
+    ) -> Dict[str, List[str]]:
+        """
+        Process Pydantic ValidationError and convert to standardized error format
+
+        Args:
+            validation_error: Pydantic ValidationError instance
+
+        Returns:
+            Dict with field names as keys and lists of error messages as values
+        """
+        errors = {}
+        for error in validation_error.errors():
+            # get field name from location
+            field = error["loc"][0] if error["loc"] else "unknown"
+            message = error["msg"]
+
+            # initialize field if not exists
+            if field not in errors:
+                errors[field] = []
+
+            # add error message
+            errors[field].append(message)
+
+        return errors
 
     @classmethod
     def _process_data(

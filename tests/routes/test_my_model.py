@@ -1,8 +1,10 @@
 from unittest.mock import patch
 
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from models.my_model import MyModelRequest
+from routes.my_model import router, setup
 
 
 def test_my_model_create(client: TestClient):
@@ -75,3 +77,21 @@ def test_my_model_random_not_found(client: TestClient):
         data = response.json()
         assert data["success"] is False
         assert data["message"] == "not-found"
+
+
+def test_setup_function():
+    app = FastAPI()
+
+    # get initial routes
+    initial_routes = len(app.routes)
+
+    # call the setup function
+    setup(app)
+
+    # verify that the router is now included (should have more routes)
+    assert len(app.routes) > initial_routes
+
+    # verify that our specific routes are included
+    route_paths = [route.path for route in app.routes]
+    assert "/api/my-model/create" in route_paths
+    assert "/api/my-model/random" in route_paths
