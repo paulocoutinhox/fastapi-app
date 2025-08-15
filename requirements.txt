@@ -1,5 +1,4 @@
 # app
-pygemstones>=0.0.14
 black>=25.1.0
 pydantic
 fastapi
