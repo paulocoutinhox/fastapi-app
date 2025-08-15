@@ -42,7 +42,7 @@ test:
 	python3 -m pytest
 
 test-cov:
-	python3 -m pytest --cov=. --maxfail=1 tests/
+	python3 -m pytest --cov=. --cov-report=html --maxfail=1 tests/
 
 docker-single-build:
 	docker build -f Dockerfile.web -t fastapi-app .

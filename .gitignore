@@ -44,6 +44,7 @@ mysql-data
 .pytest_cache
 poetry.lock
 .venv
+/htmlcov
 
 # app
 *.db

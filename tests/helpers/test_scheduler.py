@@ -34,6 +34,10 @@ def test_scheduler_can_add_job():
     assert job.id == "test_job"
     assert scheduler.get_job("test_job") is not None
 
+    # execute the job immediately
+    result = job.func()
+    assert result == "test"
+
     # remove the job
     scheduler.remove_job("test_job")
 

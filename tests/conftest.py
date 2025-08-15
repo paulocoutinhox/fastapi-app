@@ -1,54 +1,62 @@
-import os
-import sys
-
 import pytest
+import pytest_asyncio
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-# app
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from httpx import ASGITransport, AsyncClient
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from helpers import router
-from helpers.db import Base, get_db
+from helpers.db import Base, get_session
 
-# database
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+
+async_engine = create_async_engine(
+    SQLALCHEMY_DATABASE_URL,
+    echo=False,
+    pool_pre_ping=True,
 )
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+TestingAsyncSessionLocal = async_sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=async_engine,
+)
 
 
-# fixtures
-@pytest.fixture(scope="function")
-def db():
-    Base.metadata.create_all(bind=engine)
-    db = TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-        Base.metadata.drop_all(bind=engine)
+@pytest_asyncio.fixture(scope="function")
+async def db():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    async with TestingAsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.rollback()
+            await session.close()
+
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest.fixture
-def app(db) -> FastAPI:
+@pytest_asyncio.fixture
+async def app(db) -> FastAPI:
     app = FastAPI()
     router.setup(app)
 
-    # replace database session
-    def override_get_db():
-        try:
-            yield db
-        finally:
-            db.close()
+    async def override_get_session():
+        async with TestingAsyncSessionLocal() as session:
+            yield session
 
-    app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_session] = override_get_session
     return app
 
 
 @pytest.fixture
 def client(app: FastAPI) -> TestClient:
     return TestClient(app)
+
+
+@pytest.fixture
+async def async_client(app: FastAPI) -> AsyncClient:
+    return AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
