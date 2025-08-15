@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 import pytest
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from helpers.scheduler import scheduler
@@ -24,7 +25,8 @@ def test_job_create_my_model_list(db: Session):
         my_model.job_create_my_model_list()
 
         # verify the data was inserted
-        obj_from_db = db.query(MyModel).filter_by(field1="Test Job").first()
+        stmt = select(MyModel).where(MyModel.field1 == "Test Job")
+        obj_from_db = db.execute(stmt).scalar_one_or_none()
         assert obj_from_db is not None
         assert obj_from_db.field1 == "Test Job"
         assert obj_from_db.field2 == False

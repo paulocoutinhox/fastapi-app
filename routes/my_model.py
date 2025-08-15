@@ -20,7 +20,7 @@ async def my_model_create(request: MyModelRequest, db: Session = Depends(get_db)
     if obj is None:
         raise HTTPException(status_code=404, detail="MyModel not found after creation")
 
-    response = MyModelResponse(message="created", model=obj.to_dict())
+    response = MyModelResponse(message="created", model=obj)
 
     return response
 
@@ -32,7 +32,7 @@ async def my_model_random(db: Session = Depends(get_db)):
     if obj is None:
         return {"message": "not-found"}
 
-    response = MyModelResponse(message="random", model=obj.to_dict())
+    response = MyModelResponse(message="random", model=obj)
 
     return response
 

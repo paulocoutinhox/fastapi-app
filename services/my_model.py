@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
-from sqlalchemy.sql.expression import func
 
 from helpers.log import logging as l
 from models.my_model import MyModel
@@ -22,7 +22,8 @@ def create(obj: MyModel, db: Session):
 
 def get_random_row(db: Session):
     try:
-        random_row = db.query(MyModel).order_by(func.random()).first()
+        stmt = select(MyModel).order_by(MyModel.id.desc()).limit(1)
+        random_row = db.execute(stmt).scalar_one_or_none()
         return random_row
     except Exception as e:
         l.error(f"[my model : get random row] {e}")
@@ -31,12 +32,15 @@ def get_random_row(db: Session):
 
 def update(id, obj: MyModel, db: Session):
     try:
-        item = db.query(MyModel).filter(MyModel.id == id).one()
-        item.field1 = obj.field1
-        item.field2 = obj.field2
-        item.updated_at = datetime.now()
-        db.commit()
-        return item
+        stmt = select(MyModel).where(MyModel.id == id)
+        item = db.execute(stmt).scalar_one_or_none()
+        if item:
+            item.field1 = obj.field1
+            item.field2 = obj.field2
+            item.updated_at = datetime.now()
+            db.commit()
+            return item
+        return None
     except Exception as e:
         l.error(f"[my model : update] {e}")
         db.rollback()
@@ -45,10 +49,13 @@ def update(id, obj: MyModel, db: Session):
 
 def delete(id, db: Session):
     try:
-        item = db.query(MyModel).filter(MyModel.id == id).one()
-        db.delete(item)
-        db.commit()
-        return True
+        stmt = select(MyModel).where(MyModel.id == id)
+        item = db.execute(stmt).scalar_one_or_none()
+        if item:
+            db.delete(item)
+            db.commit()
+            return True
+        return False
     except Exception as e:
         l.error(f"[my model : delete] {e}")
         db.rollback()
@@ -57,7 +64,8 @@ def delete(id, db: Session):
 
 def find_by_id(id, db: Session):
     try:
-        item = db.query(MyModel).filter(MyModel.id == id).one()
+        stmt = select(MyModel).where(MyModel.id == id)
+        item = db.execute(stmt).scalar_one_or_none()
         return item
     except Exception as e:
         l.error(f"[my model : find by id] {e}")
