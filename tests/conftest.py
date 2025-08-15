@@ -6,7 +6,7 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from helpers import router
-from helpers.db import Base, get_session  # importa a função de dependência real
+from helpers.db import Base, get_session
 
 SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
@@ -20,7 +20,6 @@ TestingAsyncSessionLocal = async_sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=async_engine,
-    future=True,
 )
 
 
