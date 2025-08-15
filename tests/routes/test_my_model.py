@@ -25,7 +25,7 @@ async def test_my_model_create(async_client: AsyncClient):
     assert data["message"] == "created"
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_my_model_random(async_client: AsyncClient):
     # create a registry
     request = MyModelRequest(field1="Test 1", field2=True)
@@ -44,7 +44,7 @@ async def test_my_model_random(async_client: AsyncClient):
     assert data["message"] == "random"
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_my_model_create_fail_create(async_client: AsyncClient):
     request = MyModelRequest(field1="Test 1", field2=True)
 
@@ -56,7 +56,7 @@ async def test_my_model_create_fail_create(async_client: AsyncClient):
         assert response.json() == {"detail": "Failed to create MyModel"}
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_my_model_create_fail_find_by_id(async_client: AsyncClient):
     request = MyModelRequest(field1="Test 1", field2=True)
 
@@ -70,7 +70,7 @@ async def test_my_model_create_fail_find_by_id(async_client: AsyncClient):
         assert response.json() == {"detail": "MyModel not found after creation"}
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_my_model_random_not_found(async_client: AsyncClient):
     with patch("services.my_model.get_random_row", return_value=None):
         response = await async_client.get("/api/my-model/random")
@@ -79,7 +79,7 @@ async def test_my_model_random_not_found(async_client: AsyncClient):
         assert data == {"message": "not-found"}
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_setup_function():
     app = FastAPI()
 
