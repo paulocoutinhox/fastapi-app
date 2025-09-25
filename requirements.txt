@@ -1,9 +1,9 @@
 # app
 pygemstones>=0.0.14
-black>=25.1.0
-pydantic>=2.0.0
-sqlalchemy>=2.0.0
-aiosqlite>=0.19.0
+black>=25.9.0
+pydantic>=2.11.9
+sqlalchemy>=2.0.43
+aiosqlite>=0.21.0
 fastapi
 uvicorn
 requests
